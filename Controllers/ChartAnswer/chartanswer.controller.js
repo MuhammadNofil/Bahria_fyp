@@ -1,0 +1,100 @@
+const ChartAnswerService = require("../../Services/ChartAnswer/chartanswer.service");
+const responses = require("../../Responses/response");
+const create = async (req, res) => {
+  try {
+    const answer = await ChartAnswerService.create(req.body);
+    if (!answer) {
+      res.send(responses.genericResponse(401, false, responses.FAILED));
+      return;
+    }
+    res.send(
+      responses.genericResponse(200, true, { answer }, null, responses.SUCCESS)
+    );
+    return;
+  } catch (error) {
+    res.send(responses.genericResponse(500, false, responses.FAILED));
+  }
+};
+const update = async (req, res) => {
+  try {
+    const answer = await ChartAnswerService.update(req.body, req.params);
+    if (!answer) {
+      res.send(responses.genericResponse(401, false, responses.FAILED));
+      return;
+    }
+    res.send(
+      responses.genericResponse(200, true, { answer }, null, responses.SUCCESS)
+    );
+    return;
+  } catch (error) {
+    res.send(responses.genericResponse(500, false, responses.FAILED));
+  }
+};
+const getbyid = async (req, res) => {
+  try {
+    const answer = await ChartAnswerService.getbyid(req.params);
+    if (!answer) {
+      res.send(responses.genericResponse(401, false, responses.FAILED));
+      return;
+    }
+    res.send(
+      responses.genericResponse(200, true, { answer }, null, responses.SUCCESS)
+    );
+    return;
+  } catch (error) {
+    res.send(responses.genericResponse(500, false, responses.FAILED));
+  }
+};
+const getall = async (req, res) => {
+  try {
+    const answer = await ChartAnswerService.getall();
+    if (!answer) {
+      res.send(responses.genericResponse(401, false, responses.FAILED));
+      return;
+    }
+    res.send(
+      responses.genericResponse(200, true, { answer }, null, responses.SUCCESS)
+    );
+    return;
+  } catch (error) {
+    res.send(responses.genericResponse(500, false, responses.FAILED));
+  }
+};
+const Delete = async (req, res) => {
+  try {
+    const answer = await ChartAnswerService.Delete(req.params);
+    if (!answer) {
+      res.send(responses.genericResponse(401, false, responses.FAILED));
+      return;
+    }
+    res.send(
+      responses.genericResponse(200, true, { answer }, null, responses.SUCCESS)
+    );
+    return;
+  } catch (error) {
+    res.send(responses.genericResponse(500, false, responses.FAILED));
+  }
+};
+const updatestars = async (req, res) => {
+  try {
+    const question = await TextAnswer.updatestars(req.params);
+    if (!question) {
+      res.send(responses.genericResponse(401, false, responses.FAILED));
+      return;
+    }
+    res.send(
+      responses.genericResponse(
+        200,
+        true,
+        { question },
+        null,
+        responses.SUCCESS
+      )
+    );
+    return;
+  } catch (error) {
+    res.send(responses.genericResponse(500, false, responses.FAILED));
+  }
+};
+
+module.exports = { create, update, getbyid, getall, Delete, updatestars };
