@@ -1,5 +1,6 @@
 const QuestionRouter = require("express").Router();
 const QuestionController = require("../../Controllers/Question/question.controller");
+const { verifyUser } = require("../../middleware/middleware");
 
 QuestionRouter.post("/create/", QuestionController.create);
 QuestionRouter.put("/update/:id", QuestionController.update);

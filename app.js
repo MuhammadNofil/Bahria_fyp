@@ -3,12 +3,20 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+require("./passport/JwtStrategy");
+require("./passport/GoogleStartegy");
 const app = express();
 // require("./passport/GoogleStartegy");
 const session = require("express-session");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //implementing cors
@@ -16,10 +24,9 @@ app.use(cors({ origin: true, credentials: true }));
 // app.use(cors())
 app.use(
   session({
-    secret: "somethingsecretgoeshere",
+    secret: "secret",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
   })
 );
 app.use(express.json());
@@ -47,6 +54,6 @@ app.use("/textanswer/", TextAnswer);
 app.use("/chartanswer/", ChartRouter);
 app.use("/flowchart/", FlowchartRouter);
 app.use("/drawing/", DrwaingRouter);
-app.use("/forgetpass/", ForgetPassword);
+app.use("/", ForgetPassword);
 
 module.exports = app;

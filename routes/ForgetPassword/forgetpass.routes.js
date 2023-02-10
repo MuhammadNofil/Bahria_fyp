@@ -6,6 +6,6 @@ forgetRouter.get(
   "/forgetpass/:id/:token",
   forgetPassController.VerifyUserBeforeReset
 );
-forgetRouter.post("/:id/:token", forgetPassController.NewPassword);
+forgetRouter.post("/forget/:id/:token", forgetPassController.NewPassword);
 
 module.exports = forgetRouter;

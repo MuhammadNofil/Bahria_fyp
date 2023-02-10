@@ -1,12 +1,15 @@
 const forgetPassowrdService = require("../../services/ForgetPassword/forgetpass.service");
-
+const responses = require("../../Responses/response");
 const SendRestLink = async (req, res, next) => {
   try {
     const reset = await forgetPassowrdService.forgetLink(req.body);
+    console.log(reset, "daaadd");
     if (!reset) {
-      responses.genericResponse(500, false, null, {
-        message: responses.USERS_NOT_FOUND,
-      });
+      res.send(
+        responses.genericResponse(500, false, null, null, {
+          message: responses.USERS_NOT_FOUND,
+        })
+      );
       return;
     }
     res.send(
@@ -39,10 +42,20 @@ const VerifyUserBeforeReset = async (req, res) => {
   }
 };
 const NewPassword = async (req, res) => {
+  console.log(req.params, "controller");
+  console.log(req.body, "req.body");
   try {
-    await forgetPassowrdService.ChangePassword(req.params, req.body);
+    const forget = await forgetPassowrdService.ChangePassword(
+      req.params,
+      req.body
+    );
+    if (!forget) {
+      res.send(responses.genericResponse(401, false, forget, null));
+      return;
+    }
+    res.send(responses.genericResponse(201, true, forget, null));
   } catch (error) {
-    return responses.genericResponse(401, false, null, {
+    return responses.genericResponse(500, false, null, {
       message: responses.FAILED,
     });
   }

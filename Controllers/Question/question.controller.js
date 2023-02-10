@@ -1,20 +1,15 @@
 const QuestionServices = require("../../Services/Question/Question.service");
 const responses = require("../../Responses/response");
 const create = async (req, res) => {
+  const { id } = req.query;
   try {
-    const textanswer = await QuestionServices.create(req.body);
-    if (!textanswer) {
+    const question = await QuestionServices.create(req.body, id);
+    if (!question) {
       res.send(responses.genericResponse(401, false, responses.FAILED));
       return;
     }
     res.send(
-      responses.genericResponse(
-        200,
-        true,
-        { textanswer },
-        null,
-        responses.SUCCESS
-      )
+      responses.genericResponse(200, true, question, null, responses.SUCCESS)
     );
     return;
   } catch (error) {

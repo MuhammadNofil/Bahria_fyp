@@ -13,19 +13,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   isSubsribed: { type: Boolean, default: false },
-  Skills: { type: Array },
+  Skills: { type: String },
   qualification: { type: String },
+  description: { type: String },
   services: { type: String },
+  occupation: { type: String },
+  img: { type: String },
   date: {
     type: Date,
     default: Date.now,
   },
-  questions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
-    },
-  ],
 });
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

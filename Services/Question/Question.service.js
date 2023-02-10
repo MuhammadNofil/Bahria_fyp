@@ -1,11 +1,13 @@
 const Question = require("../../Schema/Question/Question.schema");
-const create = async (questionInfo) => {
-  const { title, description, userId } = questionInfo;
+const create = async (questionInfo, id) => {
+  const { title, description, category } = questionInfo;
+  console.log(id, questionInfo, "sasasas");
   try {
     const question = await Question.create({
       title,
       description,
-      userId,
+      category,
+      userId: id,
     });
     if (!question) {
       return false;
@@ -37,7 +39,7 @@ const update = async (questionInfo, param) => {
 const getbyid = async (param) => {
   const { id } = param;
   try {
-    const question = await Question.findOne({ _id: id });
+    const question = await Question.findOne({ _id: id }).populate("userId");
     if (!question) {
       return false;
     }
@@ -48,7 +50,7 @@ const getbyid = async (param) => {
 };
 const getall = async () => {
   try {
-    const question = await Question.find();
+    const question = await Question.find().populate("userId");
     if (!question) {
       return false;
     }

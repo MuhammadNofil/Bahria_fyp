@@ -1,6 +1,8 @@
 const TextRouter = require("express").Router();
 const TextController = require("../../Controllers/TextAnswer/textanswer.controller");
-
+const {
+  VerifyUser,
+} = require("../../services/ForgetPassword/forgetpass.service");
 TextRouter.post("/create/", TextController.create);
 TextRouter.put("/update/:id", TextController.update);
 TextRouter.put("/updatestar/:id", TextController.updatestars);

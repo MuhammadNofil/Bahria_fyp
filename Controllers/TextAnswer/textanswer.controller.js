@@ -2,19 +2,13 @@ const TextAnswer = require("../../Services/TextAnswer/textanswer.service");
 const responses = require("../../Responses/response");
 const create = async (req, res) => {
   try {
-    const question = await TextAnswer.create(req.body);
-    if (!question) {
+    const answer = await TextAnswer.create(req.body, req.user);
+    if (!answer) {
       res.send(responses.genericResponse(401, false, responses.FAILED));
       return;
     }
     res.send(
-      responses.genericResponse(
-        200,
-        true,
-        { question },
-        null,
-        responses.SUCCESS
-      )
+      responses.genericResponse(200, true, answer, null, responses.SUCCESS)
     );
     return;
   } catch (error) {

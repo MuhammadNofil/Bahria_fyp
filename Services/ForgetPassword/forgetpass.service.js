@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 
 const forgetLink = async (userInfo) => {
   const { email } = userInfo;
-
   try {
     const user = await User.findOne({
       email: email,
@@ -17,7 +16,7 @@ const forgetLink = async (userInfo) => {
     const id = user.id;
 
     var token = jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: parseInt("120s"),
+      expiresIn: parseInt("50000s"),
     });
 
     const mailOptions = {
@@ -56,17 +55,21 @@ const VerifyUser = async (resetData, req, res) => {
 };
 
 // change password
-const ChangePassword = async (resetData) => {
+const ChangePassword = async (resetData, req) => {
+  const { password } = req;
   const { id, token } = resetData;
+  console.log(resetData, "resData");
+  console.log(resetData);
   try {
     const verifyToken = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
     if (verifyToken) {
-      const newpassword = await bcrypt.hash(req.newPassword, 10);
+      const newpassword = await bcrypt.hash(password, 10);
       const abc = await User.updateOne({ _id: id }, { password: newpassword });
       if (!abc) {
         return false;
       }
+      console.log(abc, "abc");
       return true;
     }
   } catch (error) {

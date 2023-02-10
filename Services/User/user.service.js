@@ -24,22 +24,60 @@ const Register = async (userInfo) => {
     console.log("error");
   }
 };
-const Update = async (userInfo) => {
-  const { name, skills, qualification, services } = userInfo;
+const UpdateOccupation = async (userInfo, query) => {
+  const { name, Skills, qualification, services, occupation } = userInfo;
+  const { id } = query;
+  console.log(userInfo, query);
   try {
-    const user = await User.create({
-      name,
-      email,
-      skills,
-      qualification,
-      services,
-    });
+    const user = await User.updateOne(
+      { _id: id },
+      {
+        occupation,
+      }
+    );
+    console.log("yaha hay may");
     if (!user) {
       return false;
     }
+    console.log(user, "user");
     return user;
   } catch (error) {
     console.log("error");
   }
 };
-module.exports = { Register, Update };
+const update = async (userInfo, query) => {
+  const { Skills, description, qualification, services, img } = userInfo;
+  const { id } = query;
+  console.log(userInfo, query);
+  try {
+    const user = await User.updateOne(
+      { _id: id },
+      {
+        services,
+        qualification,
+        description,
+        Skills,
+        img,
+      }
+    );
+    if (!user) {
+      return false;
+    }
+    console.log(user, "user");
+    return user;
+  } catch (error) {
+    console.log("yaha hay may");
+    console.log("error");
+  }
+};
+const getall = async (userInfo, query) => {
+  try {
+    const user = await User.find().populate({ path: "questions" });
+    if (!user) {
+      return false;
+    }
+    // await user.populate("questions");
+    return user;
+  } catch (error) {}
+};
+module.exports = { Register, UpdateOccupation, getall, update };
